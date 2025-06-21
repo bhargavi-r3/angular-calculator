@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'simple-calculator';
+  title = 'Angulars_simple-cal';
 
   num1 = 0;
   num2 = 0;
