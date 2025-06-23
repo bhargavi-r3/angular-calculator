@@ -1,19 +1,25 @@
-<div style="max-width: 400px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
-  <h2 class="text-center">Simple Calculator</h2>
+<div class="calculator-container">
+  <div class="calculator-display">{{ display || '0' }}</div>
 
-  <input [(ngModel)]="num1" type="number" placeholder="Enter first number" class="form-control mb-2" />
-  <input [(ngModel)]="num2" type="number" placeholder="Enter second number" class="form-control mb-3" />
+  <div class="button-grid">
+    <button (click)="appendNumber('7')">7</button>
+    <button (click)="appendNumber('8')">8</button>
+    <button (click)="appendNumber('9')">9</button>
+    <button class="operator" (click)="chooseOperator('/')">÷</button>
 
-  <div class="d-flex justify-content-between mb-3">
-    <button (click)="add()" class="btn btn-primary">+</button>
-    <button (click)="subtract()" class="btn btn-secondary">-</button>
-    <button (click)="multiply()" class="btn btn-success">×</button>
-    <button (click)="divide()" class="btn btn-warning">÷</button>
+    <button (click)="appendNumber('4')">4</button>
+    <button (click)="appendNumber('5')">5</button>
+    <button (click)="appendNumber('6')">6</button>
+    <button class="operator" (click)="chooseOperator('*')">×</button>
+
+    <button (click)="appendNumber('1')">1</button>
+    <button (click)="appendNumber('2')">2</button>
+    <button (click)="appendNumber('3')">3</button>
+    <button class="operator" (click)="chooseOperator('-')">−</button>
+
+    <button (click)="appendNumber('0')">0</button>
+    <button (click)="clear()">C</button>
+    <button (click)="calculate()">=</button>
+    <button class="operator" (click)="chooseOperator('+')">+</button>
   </div>
-
-  <div *ngIf="result !== ''" class="alert alert-info">
-    Result: {{ result }}
-  </div>
-
-  <button (click)="clear()" class="btn btn-danger w-100">Clear</button>
 </div>

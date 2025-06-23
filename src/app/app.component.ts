@@ -12,30 +12,72 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   title = 'Angulars_simple-cal';
+  display: string = '';
+  currentValue: string = '';
+  firstOperand: number | null = null;
+  operator: string | null = null;
+  waitingForSecondOperand = false;
 
-  num1 = 0;
-  num2 = 0;
-  result: number | string = '';
+  appendNumber(value: string) {
+    if (this.waitingForSecondOperand) {
+      this.currentValue = value;
+      this.waitingForSecondOperand = false;
+    } else {
+      this.currentValue += value;
+    }
 
-  add() {
-    this.result = this.num1 + this.num2;
+    this.display = this.operator
+      ? `${this.firstOperand} ${this.operator} ${this.currentValue}`
+      : this.currentValue;
   }
 
-  subtract() {
-    this.result = this.num1 - this.num2;
+  chooseOperator(op: string) {
+    if (this.currentValue === '') return;
+
+    this.firstOperand = parseFloat(this.currentValue);
+    this.operator = op;
+    this.waitingForSecondOperand = true;
+
+    this.display = `${this.firstOperand} ${this.operator}`;
+    this.currentValue = '';
   }
 
-  multiply() {
-    this.result = this.num1 * this.num2;
-  }
+  calculate() {
+    if (this.operator && this.firstOperand !== null && this.currentValue !== '') {
+      const secondOperand = parseFloat(this.currentValue);
+      let result: number;
 
-  divide() {
-    this.result = this.num2 !== 0 ? this.num1 / this.num2 : 'Cannot divide by zero';
+      switch (this.operator) {
+        case '+':
+          result = this.firstOperand + secondOperand;
+          break;
+        case '-':
+          result = this.firstOperand - secondOperand;
+          break;
+        case '*':
+          result = this.firstOperand * secondOperand;
+          break;
+        case '/':
+          result = secondOperand !== 0 ? this.firstOperand / secondOperand : NaN;
+          break;
+        default:
+          result = NaN;
+      }
+
+      this.display = ` ${isNaN(result) ? 'Error' : result.toString()}`;
+      this.currentValue = result.toString();
+      this.firstOperand = null;
+      this.operator = null;
+      this.waitingForSecondOperand = false;
+    }
   }
 
   clear() {
-    this.num1 = 0;
-    this.num2 = 0;
-    this.result = '';
+    this.display = '';
+    this.currentValue = '';
+    this.firstOperand = null;
+    this.operator = null;
+    this.waitingForSecondOperand = false;
   }
 }
+
